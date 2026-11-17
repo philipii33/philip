@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Automation Dashboard</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101827;
+            color: white;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        header {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #38bdf8;
+        }
+
+        header h1 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #cbd5e1;
+        }
+
+        .device-card {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .device-card h2 {
+            margin-bottom: 15px;
+        }
+
+        .device-info {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            background: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .info span {
+            display: block;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .info strong {
+            color: #38bdf8;
+        }
+
+        button {
+            background: #0284c7;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #0369a1;
+        }
+
+        .results {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .results h2 {
+            color: #38bdf8;
+            margin-bottom: 20px;
+        }
+
+        .output-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .output-title {
+            background: #334155;
+            padding: 12px 15px;
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        pre {
+            padding: 18px;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            color: #d1fae5;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .error {
+            background: #7f1d1d;
+            color: #fecaca;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .empty {
+            color: #94a3b8;
+            text-align: center;
+            padding: 25px;
+        }
+
+        footer {
+            text-align: center;
+            color: #64748b;
+            margin-top: 30px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Network Automation Dashboard</h1>
+        <p>Cisco Router Monitoring using Python Flask and Netmiko</p>
+    </header>
+
+    <div class="device-card">
+
+        <h2>Router Information</h2>
+
+        <div class="device-info">
+
+            <div class="info">
+                <span>Device</span>
+                <strong>Cisco Router</strong>
+            </div>
+
+            <div class="info">
+                <span>IP Address</span>
+                <strong>192.168.10.40</strong>
+            </div>
+
+            <div class="info">
+                <span>Connection</span>
+                <strong>Telnet</strong>
+            </div>
+
+            <div class="info">
+                <span>Port</span>
+                <strong>32770</strong>
+            </div>
+
+        </div>
+
+        <form method="POST" action="/">
+            <button type="submit">
+                Connect and Execute Commands
+            </button>
+        </form>
+
+    </div>
+
+    {% if error %}
+        <div class="error">
+            <strong>Connection Error:</strong>
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <div class="results">
+
+        <h2>Router Command Results</h2>
+
+        {% if results %}
+
+            {% for command, output in results.items() %}
+
+                <div class="output-card">
+
+                    <div class="output-title">
+                        {{ command }}
+                    </div>
+
+                    <pre>{{ output }}</pre>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                No results available.
+                Click the button above to connect to the router.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <footer>
+        Network Automation Project | Python Flask + Netmiko
+    </footer>
+
+</div>
+
+</body>
+</html>
